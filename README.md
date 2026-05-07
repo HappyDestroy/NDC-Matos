@@ -1,0 +1,1 @@
+Attribution automatique des demandes de matériel en fonction des personnes disponibles
