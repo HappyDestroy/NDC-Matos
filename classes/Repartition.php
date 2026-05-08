@@ -14,7 +14,7 @@ class Repartition
         $demandes = [];
 
         // Ignore les 4 premières lignes
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             fgetcsv($handle, 1000, ',');
         }
 
@@ -35,7 +35,6 @@ class Repartition
 
             // Demande complète de matériel
             if (!empty($materiel)) {
-
                 $demandes[] = [
                     'demandeur' => $nomComplet,
                     'materiel' => $materiel
@@ -53,6 +52,7 @@ class Repartition
         }
 
         // Mélange aléatoire des volontaires
+        //(Sinon ce sont toujours les premiers inscrit qui récupèrent du matos)
         shuffle($volontaires);
 
         // Attribution complète des demandes

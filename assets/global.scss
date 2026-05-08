@@ -1,0 +1,20 @@
+body {
+
+    button,
+    .back-btn {
+        display: block;
+        width: fit-content;
+        margin: 20px 0 0 0;
+
+        color: white;
+        background: #0077b6;
+
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+}

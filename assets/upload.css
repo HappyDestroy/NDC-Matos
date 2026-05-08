@@ -1,0 +1,155 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f4f7;
+  margin: 0;
+  padding: 0;
+}
+body .container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+body .container h1 {
+  text-align: center;
+  color: #0d3b66;
+  margin-bottom: 10px;
+}
+body .container .actions-btn {
+  display: flex;
+  flex-direction: row;
+  gap: 0 20px;
+  align-items: center;
+  margin: 0 0 20px 0;
+}
+body .container .actions-btn > button {
+  margin: 0;
+}
+body .container .actions-btn .switch-display {
+  background: #0077b6;
+  color: white;
+}
+body .container .actions-btn .switch-display:hover {
+  background: #023e8a;
+}
+body .container .actions-btn .switch-display .icon {
+  font-size: 18px;
+}
+body .container .liste-matos {
+  display: block;
+}
+body .container .liste-matos ul li {
+  margin: 0 0 6px 0;
+}
+body .container .liste-matos ul li:last-child {
+  margin: 0;
+}
+body .container {
+  /********
+   * BLOC *
+   ********/
+}
+body .container .bloc-container {
+  display: none;
+  flex-direction: column;
+  gap: 20px 0;
+}
+body .container .bloc-container.show {
+  display: flex;
+}
+body .container .bloc-container.hidden {
+  display: none;
+}
+body .container .bloc-container.hide-association .bloc > div:nth-child(2) {
+  min-height: 200px;
+}
+body .container .bloc-container .bloc {
+  padding: 15px;
+  background-color: #FFF;
+  border: 1px solid rgb(231, 231, 231);
+  border-radius: 15px;
+}
+body .container .bloc-container .bloc ul {
+  margin: 20px 0 0 0;
+  padding: 0 0 0 30px;
+}
+body .container .bloc-container .bloc ul li {
+  margin: 0 0 6px 0;
+}
+body .container .bloc-container .bloc ul li:last-child {
+  margin: 0;
+}
+body .container {
+  /***********
+   * TABLEAU *
+   ***********/
+}
+body .container .repartition-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+body .container .repartition-table.show {
+  display: table;
+}
+body .container .repartition-table.hidden {
+  display: none;
+}
+body .container .repartition-table.hide-association tbody tr td:first-child {
+  width: 180px;
+}
+body .container .repartition-table.hide-association tbody tr td:nth-child(2) {
+  width: 100px;
+}
+body .container .repartition-table.hide-association tbody tr td:nth-child(3) {
+  height: 80px;
+}
+body .container .repartition-table th,
+body .container .repartition-table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  vertical-align: top;
+}
+body .container .repartition-table th {
+  background: #0077b6;
+  color: white;
+}
+body .container .repartition-table ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+/**************
+ * IMPRESSION *
+ **************/
+.print-btn {
+  margin: 0 0 10px 0;
+  background: #2a9d8f;
+}
+
+.print-btn:hover {
+  background: #1f776d;
+}
+
+@media print {
+  body {
+    background: white;
+  }
+  body .container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body .container h1,
+  body .container .actions-btn,
+  body .container .back-btn {
+    display: none;
+  }
+}
+@media (max-width: 580px) {
+  body .container .bloc-container {
+    display: flex;
+  }
+  body .container .repartition-table {
+    display: none;
+  }
+}
