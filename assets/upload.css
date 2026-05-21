@@ -4,11 +4,6 @@ body {
   margin: 0;
   padding: 0;
 }
-body .container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
-}
 body .container h1 {
   text-align: center;
   color: #0d3b66;
@@ -68,6 +63,12 @@ body .container .bloc-container .bloc {
   border: 1px solid rgb(231, 231, 231);
   border-radius: 15px;
 }
+body .container .bloc-container .bloc > div:first-child small {
+  display: block;
+}
+body .container .bloc-container .bloc > div:nth-child(2) {
+  margin: 10px 0 0 0;
+}
 body .container .bloc-container .bloc ul {
   margin: 20px 0 0 0;
   padding: 0 0 0 30px;
@@ -102,6 +103,9 @@ body .container .repartition-table.hide-association tbody tr td:nth-child(2) {
 }
 body .container .repartition-table.hide-association tbody tr td:nth-child(3) {
   height: 80px;
+}
+body .container .repartition-table tr td strong + small {
+  display: block;
 }
 body .container .repartition-table th,
 body .container .repartition-table td {

@@ -1,20 +1,31 @@
 <?php
 
-require_once 'classes/Repartition.php';
-
-if (!isset($_FILES['csv'])) {
-  die("Aucun fichier envoyé.");
+if (!isset($_POST['jour'])) {
+  header("Location: index.php");
+  exit();
 }
 
-$tmpName = $_FILES['csv']['tmp_name'];
+require_once 'classes/Repartition.php';
+require_once 'config.php';
+
+$jour = strtolower($_POST['jour']);
+
+if (!isset(GOOGLE_SHEET_ID[$jour])) {
+  die("Jour non configuré.");
+}
+
+
+$google_sheet = file_get_contents(
+  "https://docs.google.com/spreadsheets/d/" . GOOGLE_SHEET_ID[$_POST['jour']]['id'] . "/export?format=csv&gid=" . GOOGLE_SHEET_ID[$_POST['jour']]['gid']
+);
 
 $repartition = new Repartition();
 
-$resultat = $repartition->traiterCSV($tmpName);
+$resultat = $repartition->traiterCSV($google_sheet);
 
-$hide_association = false;
-if (isset($_POST['empty_array'])) {
-  $hide_association = true;
+$hide_association = true;
+if (isset($_POST['automatic_association'])) {
+  $hide_association = false;
 }
 
 ?>
@@ -35,7 +46,11 @@ if (isset($_POST['empty_array'])) {
 
   <div class="container">
 
-    <h1>Répartition du matériel pour la plongée</h1>
+    <h1>Répartition du matériel pour la plongée du <?= $jour ?></h1>
+
+    <?php if (!empty($resultat['lieu'])): ?>
+      <p class="lieu">Lieu : <strong><?= $resultat['lieu'] ?></strong></p>
+    <?php endif; ?>
 
     <div class="actions-btn">
       <button onclick="switchDisplay()" class="switch-display">
@@ -52,14 +67,17 @@ if (isset($_POST['empty_array'])) {
         À répartir :
 
         <ul>
-          <?php foreach ($resultat['repartition'] as $materiels): ?>
-            <?php foreach ($materiels as $m): ?>
+          <?php foreach ($resultat['repartition'] as $entry): ?>
+            <?php foreach ($entry['materiels'] ?? [] as $m): ?>
               <li>
                 <strong>
                   <?= htmlspecialchars($m['demandeur']) ?>
                 </strong>
                 :
                 <?= htmlspecialchars($m['materiel']) ?>
+                <?php if (!empty($m['commentaire'])): ?>
+                  <div style="color:#666;font-size:0.9em;margin-top:4px;">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
+                <?php endif; ?>
               </li>
             <?php endforeach ?>
           <?php endforeach ?>
@@ -68,9 +86,16 @@ if (isset($_POST['empty_array'])) {
     <?php endif ?>
 
     <div class="bloc-container <?= $hide_association ? 'hide-association' : ''; ?>" id="bloc-container">
-      <?php foreach ($resultat['repartition'] as $personne => $materiels): ?>
+      <?php foreach ($resultat['repartition'] as $personne => $entry): ?>
+        <?php $materiels = $entry['materiels'] ?? []; ?>
         <div class="bloc">
-          <div><b><?= htmlspecialchars($personne) ?></b> prend pour : </div>
+          <div>
+            <b><?= htmlspecialchars($personne) ?></b>
+            <?php if (!empty($entry['responsable'])): ?>
+              <small style="color: #666;">Responsable <?= htmlspecialchars(strtolower($entry['responsable'])) ?></small>
+            <?php endif; ?>
+          </div>
+          <div>Prend pour : </div>
           <div>
             <?php if (count($materiels) > 0 && !$hide_association): ?>
               <ul>
@@ -81,11 +106,14 @@ if (isset($_POST['empty_array'])) {
                     </strong>
                     :
                     <?= htmlspecialchars($m['materiel']) ?>
+                    <?php if (!empty($m['commentaire'])): ?>
+                      <div style="color:#666;font-size:0.9em;margin-top:4px;">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
+                    <?php endif; ?>
                   </li>
                 <?php endforeach; ?>
               </ul>
             <?php elseif (!$hide_association): ?>
-              Personne (🥳)
+              Personne 🥳
             <?php endif; ?>
           </div>
         </div>
@@ -103,10 +131,14 @@ if (isset($_POST['empty_array'])) {
       </thead>
 
       <tbody>
-        <?php foreach ($resultat['repartition'] as $personne => $materiels): ?>
+        <?php foreach ($resultat['repartition'] as $personne => $entry): ?>
+          <?php $materiels = $entry['materiels'] ?? []; ?>
           <tr>
             <td>
               <strong><?= htmlspecialchars($personne) ?></strong>
+              <?php if (!empty($entry['responsable'])): ?>
+                <small style="color: #666;">Responsable <?= htmlspecialchars(strtolower($entry['responsable'])) ?></small>
+              <?php endif; ?>
             </td>
             <td>Prend pour&nbsp;:</td>
             <td>
@@ -119,11 +151,14 @@ if (isset($_POST['empty_array'])) {
                       </strong>
                       :
                       <?= htmlspecialchars($m['materiel']) ?>
+                      <?php if (!empty($m['commentaire'])): ?>
+                        <div style="color:#666;font-size:0.9em;margin-top:4px;">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
+                      <?php endif; ?>
                     </li>
                   <?php endforeach; ?>
                 </ul>
               <?php elseif (!$hide_association): ?>
-                Personne (🥳)
+                Personne 🥳
               <?php endif; ?>
             </td>
           </tr>

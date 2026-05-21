@@ -1,3 +1,8 @@
+body .container {
+  max-width: 1300px;
+  margin: 40px auto;
+  padding: 20px;
+}
 body button,
 body .back-btn {
   display: block;

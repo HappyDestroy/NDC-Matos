@@ -19,19 +19,25 @@
     </div>
     <p class="subtitle">Répartition du matériel de plongée</p>
 
-    <form action="upload.php" method="POST" enctype="multipart/form-data">
-      <div class="card">
-        <label for="csv">Ajouter le fichier CSV :</label>
-        <input type="file" name="csv" id="csv" accept=".csv" required>
-      </div>
+    <div class="card">
+      <form action="upload.php" method="POST">
+        <div class="button-container">
+          <button type="submit" name="jour" value="mercredi">
+            Récupérer le mercredi
+          </button>
 
-      <input type="checkbox" id="empty_array" name="empty_array">
-      <label for="empty_array">Générer juste un tableau vide pour faire l'association à la main</label>
+          <button type="submit" name="jour" value="samedi">
+            Récupérer le samedi
+          </button>
+        </div>
 
-      <button type="submit">
-        Générer la répartition
-      </button>
-    </form>
+        <label for="automatic_association">
+          <input type="checkbox" name="automatic_association" id="automatic_association">
+          Laisser l'algorithme gérer l'association du matériel
+          <span class="info-icon" data-tooltip="C'est expérimental, faites-moi vos retour.&#10;Quand ceci est coché, l'algorithme assignera automatiquement le matériel aux utilisateurs.&#10;⚠️La répartition n'est pas sauvegardé, à chaque envoi du formulaire elle change⚠️">ℹ️</span>
+        </label>
+      </form>
+    </div>
   </div>
 </body>
 

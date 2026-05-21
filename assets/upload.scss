@@ -5,10 +5,6 @@ body {
     padding: 0;
 
     .container {
-        max-width: 900px;
-        margin: 40px auto;
-        padding: 20px;
-
         h1 {
             text-align: center;
             color: #0d3b66;
@@ -82,6 +78,15 @@ body {
                 border: 1px solid rgb(231, 231, 231);
                 border-radius: 15px;
 
+                >div:first-child small {
+                    display: block;
+                }
+
+
+                >div:nth-child(2) {
+                    margin: 10px 0 0 0;
+                }
+
                 ul {
                     margin: 20px 0 0 0;
                     padding: 0 0 0 30px;
@@ -129,23 +134,27 @@ body {
                     }
                 }
             }
-        }
 
-        .repartition-table th,
-        .repartition-table td {
-            border: 1px solid #ccc;
-            padding: 12px;
-            vertical-align: top;
-        }
+            tr td strong + small {
+                display: block;
+            }
 
-        .repartition-table th {
-            background: #0077b6;
-            color: white;
-        }
+            th,
+            td {
+                border: 1px solid #ccc;
+                padding: 12px;
+                vertical-align: top;
+            }
 
-        .repartition-table ul {
-            margin: 0;
-            padding-left: 20px;
+            th {
+                background: #0077b6;
+                color: white;
+            }
+
+            ul {
+                margin: 0;
+                padding-left: 20px;
+            }
         }
     }
 }
