@@ -69,6 +69,11 @@ class Repartition
         $lieu = '';
 
         while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+
+            if(trim($data[self::COL_MATERIEL] ?? '') == "Aucun besoin") {
+                continue;
+            }
+
             // Capture le lieu depuis la première ligne de données
             $lieu = $lieu ?: trim($data[self::COL_LIEU] ?? '');
             

@@ -36,6 +36,12 @@
           Laisser l'algorithme gérer l'association du matériel
           <span class="info-icon" data-tooltip="C'est expérimental, faites-moi vos retour.&#10;Quand ceci est coché, l'algorithme assignera automatiquement le matériel aux utilisateurs.&#10;⚠️La répartition n'est pas sauvegardé, à chaque envoi du formulaire elle change⚠️">ℹ️</span>
         </label>
+        
+
+        <label for="show_comment">
+          <input type="checkbox" name="show_comment" id="show_comment">
+          Afficher les commentaires
+        </label>
       </form>
     </div>
   </div>

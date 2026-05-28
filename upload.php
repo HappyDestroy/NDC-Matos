@@ -28,6 +28,11 @@ if (isset($_POST['automatic_association'])) {
   $hide_association = false;
 }
 
+$show_comment = false;
+if (isset($_POST['show_comment'])) {
+  $show_comment = true;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -75,8 +80,8 @@ if (isset($_POST['automatic_association'])) {
                 </strong>
                 :
                 <?= htmlspecialchars($m['materiel']) ?>
-                <?php if (!empty($m['commentaire'])): ?>
-                  <div style="color:#666;font-size:0.9em;margin-top:4px;">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
+                <?php if (!empty($m['commentaire']) && $show_comment): ?>
+                  <div class="commentaire">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
                 <?php endif; ?>
               </li>
             <?php endforeach ?>
@@ -92,26 +97,34 @@ if (isset($_POST['automatic_association'])) {
           <div>
             <b><?= htmlspecialchars($personne) ?></b>
             <?php if (!empty($entry['responsable'])): ?>
-              <small style="color: #666;">Responsable <?= htmlspecialchars(strtolower($entry['responsable'])) ?></small>
+              <small>Responsable <?= htmlspecialchars(strtolower($entry['responsable'])) ?></small>
             <?php endif; ?>
           </div>
           <div>Prend pour : </div>
           <div>
             <?php if (count($materiels) > 0 && !$hide_association): ?>
-              <ul>
-                <?php foreach ($materiels as $m): ?>
-                  <li>
-                    <strong>
-                      <?= htmlspecialchars($m['demandeur']) ?>
-                    </strong>
-                    :
-                    <?= htmlspecialchars($m['materiel']) ?>
-                    <?php if (!empty($m['commentaire'])): ?>
-                      <div style="color:#666;font-size:0.9em;margin-top:4px;">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
-                    <?php endif; ?>
-                  </li>
-                <?php endforeach; ?>
-              </ul>
+              <?php foreach ($materiels as $m): ?>
+                <div class="personne-container">
+                  <div class="personne-name">
+                    <?= htmlspecialchars($m['demandeur']) ?>
+                  </div>
+                  <div class="personne-demande">
+                    <?php $demande = explode(',', $m['materiel']); ?>
+                    <?php foreach ($demande as $d): ?>
+                      <div class="demande-line">
+                        <div class="fake-checkbox">☐</div>
+                        <div class="materiel-item"><?= htmlspecialchars(trim($d)) ?></div>
+                        <div class="materiel-numero">N° : ..........</div>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                  
+                  <?php if (!empty($m['commentaire']) && $show_comment): ?>
+                    <div class="break"></div>
+                    <div class="commentaire">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
+                  <?php endif; ?>
+                </div>
+              <?php endforeach; ?>
             <?php elseif (!$hide_association): ?>
               Personne 🥳
             <?php endif; ?>
@@ -137,28 +150,59 @@ if (isset($_POST['automatic_association'])) {
             <td>
               <strong><?= htmlspecialchars($personne) ?></strong>
               <?php if (!empty($entry['responsable'])): ?>
-                <small style="color: #666;">Responsable <?= htmlspecialchars(strtolower($entry['responsable'])) ?></small>
+                <small>Responsable <?= htmlspecialchars(strtolower($entry['responsable'])) ?></small>
               <?php endif; ?>
             </td>
             <td>Prend pour&nbsp;:</td>
             <td>
-              <?php if (count($materiels) > 0 && !$hide_association): ?>
-                <ul>
+              <?php if (!$hide_association): ?>
+                <?php if (count($materiels) > 0): ?>
                   <?php foreach ($materiels as $m): ?>
-                    <li>
-                      <strong>
+                    <div class="personne-container">
+                      <div class="personne-name">
                         <?= htmlspecialchars($m['demandeur']) ?>
-                      </strong>
-                      :
-                      <?= htmlspecialchars($m['materiel']) ?>
-                      <?php if (!empty($m['commentaire'])): ?>
-                        <div style="color:#666;font-size:0.9em;margin-top:4px;">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
+                      </div>
+                      <div class="personne-demande">
+                        <?php $demande = explode(',', $m['materiel']); ?>
+                        <?php foreach ($demande as $d): ?>
+                          <div class="demande-line">
+                            <div class="fake-checkbox">☐</div>
+                            <div class="materiel-item"><?= htmlspecialchars(trim($d)) ?></div>
+                            <div class="materiel-numero">N° : ..........</div>
+                          </div>
+                        <?php endforeach; ?>
+                      </div>
+
+                      <?php if (!empty($m['commentaire']) && $show_comment): ?>
+                        <div class="break"></div>
+                        <div class="commentaire">Commentaire: <?= htmlspecialchars($m['commentaire']) ?></div>
                       <?php endif; ?>
-                    </li>
+                    </div>
                   <?php endforeach; ?>
-                </ul>
-              <?php elseif (!$hide_association): ?>
-                Personne 🥳
+
+                <?php elseif (!$hide_association): ?>
+                  Personne 🥳
+                <?php endif; ?>
+              <?php else: ?>
+                <?php for ($i = 0; $i < 4; $i++): ?>
+                  <div class="placeholder">
+                    <div class="placeholder-name"></div>
+                    <div class="placeholder-demande">
+                      <div class="placeholder-line">
+                        <div class="placeholder-label">Bloc n°</div>
+                        <div class="placeholder-value"></div>
+                      </div>
+                      <div class="placeholder-line">
+                        <div class="placeholder-label">Stab n°</div>
+                        <div class="placeholder-value"></div>
+                      </div>
+                      <div class="placeholder-line">
+                        <div class="placeholder-label">Détendeur n°</div>
+                        <div class="placeholder-value"></div>
+                      </div>
+                    </div>
+                  </div>
+                <?php endfor; ?>
               <?php endif; ?>
             </td>
           </tr>
