@@ -29,6 +29,36 @@ body .container .actions-btn .switch-display:hover {
 body .container .actions-btn .switch-display .icon {
   font-size: 18px;
 }
+body .container .switch-direction {
+  display: flex;
+  flex-direction: row;
+  margin: 0 0 20px 0;
+}
+body .container .switch-direction > button {
+  width: 50%;
+  color: #0077b6;
+  background-color: #e5e5e5;
+  border-bottom: 3px solid #e5e5e5;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 0;
+}
+body .container .switch-direction > button.active {
+  background-color: #cdcdcd;
+  border-bottom: 3px solid #0077b6;
+}
+body .container .switch-direction > button:not(.active):hover {
+  background-color: #d6d6d6;
+  border-bottom: 3px solid #d6d6d6;
+}
+body .container .result-container .bloc-aller.show,
+body .container .result-container .bloc-retour.show {
+  display: block;
+}
+body .container .result-container .bloc-aller.hidden,
+body .container .result-container .bloc-retour.hidden {
+  display: none;
+}
 body .container .liste-matos {
   display: block;
 }
@@ -253,6 +283,7 @@ body .container .repartition-table .placeholder .placeholder-demande .placeholde
   }
   body .container h1,
   body .container .actions-btn,
+  body .container .switch-direction,
   body .container .back-btn {
     display: none;
   }
